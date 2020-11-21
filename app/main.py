@@ -3,7 +3,7 @@ from os import environ
 from fastapi import FastAPI
 
 from database.sql_alchemy import SQLAlchemyDatabase
-from routes.user import user_router
+from routes.user_routes import user_router
 
 
 sqlalchemy_db = SQLAlchemyDatabase(

@@ -22,7 +22,7 @@ def handle_create_user(db: Session, user: UserCreate):
         return handle_error(e)
 
 
-def handle_list_users(db: Session, page: int = 1, page_size: int = 10):
+def handle_list_users(db: Session, page: int, page_size: int):
     try:
         return User.list(db, page, page_size)
     except Exception as e:
@@ -34,6 +34,7 @@ def handle_get_user(db: Session, user_id: UUID):
         user = User.get(db, user_id)
         if user is None:
             raise MappedException(status.HTTP_404_NOT_FOUND, 'User not found')
+        return user
     except Exception as e:
         return handle_error(e)
 
