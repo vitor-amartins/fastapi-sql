@@ -3,7 +3,8 @@ from os import environ
 from fastapi import FastAPI
 
 from database.sql_alchemy import SQLAlchemyDatabase
-from routes.user import user_router
+from routes.auth_routes import auth_router
+from routes.user_routes import user_router
 
 
 sqlalchemy_db = SQLAlchemyDatabase(
@@ -16,6 +17,11 @@ sqlalchemy_db = SQLAlchemyDatabase(
 )
 
 app = FastAPI()
+
+app.include_router(
+    router=auth_router(sqlalchemy_db.get_db),
+    prefix='/auth'
+)
 
 app.include_router(
     router=user_router(sqlalchemy_db.get_db),
