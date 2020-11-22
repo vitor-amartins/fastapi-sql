@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from database.sql_alchemy import Base
 from schemas.user import UserCreate, UserUpdate
+from utils.security import get_password_hash
 
 
 class User(Base):
@@ -27,8 +28,7 @@ class User(Base):
 
     @staticmethod
     def create(db: Session, user: UserCreate):
-        fake_hash = user.password + 'hash'
-        db_user = User(**user.dict(exclude={'password'}), password=fake_hash)
+        db_user = User(**user.dict(exclude={'password'}), password=get_password_hash(user.password))
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
